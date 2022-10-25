@@ -88,3 +88,5 @@ docker run --name ddns -t \
     -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \
     -d ccr.ccs.tencentyun.com/gtool/namesiloddns:latest
 ```
+
+#感谢 [pztop/namesilo_ddns](https://github.com/pztop/namesilo_ddns)
