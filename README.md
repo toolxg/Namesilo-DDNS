@@ -64,7 +64,7 @@ chmod +x namesiloddns.sh
 ```
 docker pull ccr.ccs.tencentyun.com/gtool/namesiloddns
 ```
->Docker构建文件在Dockerimages内,可以自行构建镜像,镜像大小在8M左右
+>镜像构建文件在Dockerimages内,可以自行构建镜像,镜像大小在8M左右
 
 
 #### 创建容器
