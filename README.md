@@ -7,7 +7,7 @@
 #### 获取APIkey
 APIkey获取地址: **https://www.namesilo.com/account/api-manager**
 
-#### 需要的软件
+#### 需要的工具
 ```
 # 大部分发行版中无需安装 默认已安装
 curl
