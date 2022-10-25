@@ -24,7 +24,7 @@ cron # 此服务需开机运行
 ```
 mkdir namesiloddns
 cd namesiloddns
-wget 
+wget https://raw.githubusercontent.com/toolxg/Namesiloddns/master/namesiloddns.sh
 ```
 
 #### 修改Shell脚本内以下参数
