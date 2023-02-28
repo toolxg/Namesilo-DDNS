@@ -22,9 +22,9 @@ cron # 此服务需开机运行
 ## 本地环境使用方法
 ### 创建文件夹并下载Shell脚本
 ```
-~# mkdir namesiloddns
-~# cd ./namesiloddns
-~# wget https://raw.githubusercontent.com/toolxg/Namesiloddns/master/namesiloddns.sh
+@: mkdir namesiloddns
+@: cd ./namesiloddns
+@: wget https://raw.githubusercontent.com/toolxg/Namesiloddns/master/namesiloddns.sh
 ```
 
 ### 修改Shell脚本内以下参数
@@ -32,7 +32,7 @@ cron # 此服务需开机运行
 
 ```
 # 进入shell脚本
-~# vi namesiloddns.sh
+@: vi namesiloddns.sh
 
 ...
 DOMAIN=""   #必填 例:test.com
@@ -46,8 +46,8 @@ looptime="*/10 * * * *" #可选 默认10分钟运行一次(请参照cron规则�
 
 ### 添加权限与运行
 ```
-~# chmod +x namesiloddns.sh
-~# /bin/bash namesiloddns.sh 或 ./namesiloddns.sh
+@: chmod +x namesiloddns.sh
+@: /bin/bash namesiloddns.sh 或 ./namesiloddns.sh
 ```
 ### 完成
 **运行脚本后将会在登录用户下的cron文件内创建循环规则无需设置cron规则
@@ -58,7 +58,7 @@ looptime="*/10 * * * *" #可选 默认10分钟运行一次(请参照cron规则�
 ## Docker容器使用方法
 ### 下载容器(腾讯云仓库)
 ```
-~# docker pull ccr.ccs.tencentyun.com/gtool/namesiloddns
+@: docker pull ccr.ccs.tencentyun.com/gtool/namesiloddns
 ```
 >镜像构建文件在Dockerimages内,可以自行构建镜像,镜像大小在8M左右
 
@@ -76,7 +76,7 @@ looptime="" #脚本循环间隔: 默认为10分钟 (可选)
 ```
 ### 创建容器示例
 ```
-~# docker run --name ddns -t \
+@: docker run --name ddns -t \
     -e DOMAIN="test.com" \
     -e HOST="ddns" \
     -e APIKEY="ApiKey" \
