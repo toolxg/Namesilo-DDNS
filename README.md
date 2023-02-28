@@ -23,7 +23,7 @@ cron # 此服务需开机运行
 ### 创建文件夹并下载Shell脚本
 ```
 mkdir namesiloddns
-cd namesiloddns
+cd ./namesiloddns
 wget https://raw.githubusercontent.com/toolxg/Namesiloddns/master/namesiloddns.sh
 ```
 
