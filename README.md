@@ -69,7 +69,7 @@ docker pull ccr.ccs.tencentyun.com/gtool/namesiloddns
 
 #### 创建容器
 ```
-# 根据需求挂载日志文件ddnslog.log与时区文件localtime (非关键项)
+# 根据需求挂载日志文件ddnslog.log(可选)与时区文件localtime (可选)
 # 挂载日志文件需先在宿主机内创建日志文件否则Docker将自动创建文件夹非文件
 
 # 环境变量(注意大小写):
