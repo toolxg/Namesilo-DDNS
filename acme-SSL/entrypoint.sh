@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 while [ 1 -eq 1 ]
 do
-    `/bin/bash namesiloddns-dk.sh`
+    `echo test`
     sleep ${looptime:-15}d
 done
