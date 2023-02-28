@@ -1,8 +1,7 @@
 FROM alpine
 LABEL mail="mail@toolxg.com"
 WORKDIR /acmessl
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
-    apk update && apk upgrade
+RUN apk update && apk upgrade
 RUN apk add --no-cache -f openssl \
     openssh-client \
     coreutils \
