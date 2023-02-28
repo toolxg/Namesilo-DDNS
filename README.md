@@ -36,12 +36,9 @@ vi namesiloddns.sh
 
 ...
 DOMAIN="" #必填 例:test.com
-
 HOST=""   #必填 例:ddns
-
 APIKEY="" #必填 上方获取的ApiKey
-
-looptime="*/10 * * * *" #可选 cron循环时间默认>10分钟运行一次<(请参照 cron 规则填写)
+looptime="*/10 * * * *" #可选 默认10分钟运行一次(请参照**cron**规则填写)
 ...
 
 #保存并退出
@@ -70,17 +67,13 @@ docker pull ccr.ccs.tencentyun.com/gtool/namesiloddns
 ### 创建容器所需要求
 ```
 # 根据需求挂载日志文件ddnslog.log(可选)与时区文件localtime (可选)
-# 挂载日志文件需先在宿主机内创建日志文件否则Docker将自动创建文件夹非文件
+# 挂载日志文件需先在宿主机内创建日志文件
 
 # 环境变量(注意大小写):
-# 域名: 必填
-DOMAIN=""
-# 主机名: 必填
-HOST=""
-# APIkey: 必填
-APIKEY=""
-# 脚本循环间隔： 可选
-looptime="默认为10分钟"
+DOMAIN="" #域名: (必填)
+HOST="" #主机名: (必填)
+APIKEY="" #APIkey: (必填)
+looptime="" #脚本循环间隔: 默认为10分钟 (可选)
 ```
 ### 创建容器示例
 ```
