@@ -18,4 +18,4 @@ RUN apk add --no-cache -f openssl \
 RUN sh -c "$(curl -fsSL https://get.acme.sh)" acme home /acmessl --cert-home /acmessl/certs --config-home /acmessl/data | grep 'Install success!' && /acmessl/acme.sh --uninstall-cronjob
 RUN curl -O https://raw.githubusercontent.com/toolxg/Namesilo-DDNS-SSL/master/acme-SSL/entrypoint.sh && chmod +x entrypoint.sh
 
-ENTRYPOINT ["/bin/sh","-c","/ddns/entrypoint.sh"]
+ENTRYPOINT ["/bin/sh","-c","/acmessl/entrypoint.sh"]
