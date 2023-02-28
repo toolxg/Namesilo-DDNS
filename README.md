@@ -35,14 +35,13 @@ wget https://raw.githubusercontent.com/toolxg/Namesiloddns/master/namesiloddns.s
 vi namesiloddns.sh
 
 ...
-DOMAIN="" #必填 例:test.com
-HOST=""   #必填 例:ddns
-APIKEY="" #必填 上方获取的ApiKey
-looptime="*/10 * * * *" #可选 默认10分钟运行一次(请参照**cron**规则填写)
+DOMAIN=""   #必填 例:test.com
+HOST=""     #必填 例:ddns
+APIKEY=""   #必填 上方获取的ApiKey
+looptime="*/10 * * * *" #可选 默认10分钟运行一次(请参照cron规则填写)
 ...
 
-#保存并退出
-:wq
+:wq # 保存并退出
 ```
 
 ### 添加权限与运行
@@ -70,9 +69,9 @@ docker pull ccr.ccs.tencentyun.com/gtool/namesiloddns
 # 挂载日志文件需先在宿主机内创建日志文件
 
 # 环境变量(注意大小写):
-DOMAIN="" #域名: (必填)
-HOST="" #主机名: (必填)
-APIKEY="" #APIkey: (必填)
+DOMAIN=""   #域名: (必填)
+HOST=""     #主机名: (必填)
+APIKEY=""   #APIkey: (必填)
 looptime="" #脚本循环间隔: 默认为10分钟 (可选)
 ```
 ### 创建容器示例
