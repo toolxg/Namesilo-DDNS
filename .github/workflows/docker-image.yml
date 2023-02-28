@@ -6,9 +6,19 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag acmessl:$(date +%s)
+      run: |
+        mkdir image
+        docker build . --file acme-SSL/Dockerfile --tag acmessl:v0.1
+        docker save acmessl:v0.1 > ./image/acmessl.tar
+    
+    - name : Upload
+      uses: actions/upload-artifact@master
+      with:
+        name: acmessl
+        path: image
