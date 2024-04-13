@@ -38,7 +38,7 @@ if [[ -z $DOMAIN ]] || [[ -z $HOST ]] || [[ -z $APIKEY ]]; then
     exit 0
 fi
 
-## 此处不使用cron，直接使用脚本调用。
+## 此处不使用cron,直接使用脚本调用。
 
 ## 公网IP接口
 # 亚马逊
@@ -120,7 +120,7 @@ if [ "$submitS" = "300" ]; then
     echo $Stime "Api更新成功" >> ${Rpath}ddnslog.log
     echo -e "" >> ${Rpath}ddnslog.log
     else
-    echo $Stime "Api更新错误，返回状态码为$submitS" >> ${Rpath}ddnslog.log
+    echo $Stime "Api更新错误,返回状态码为$submitS" >> ${Rpath}ddnslog.log
     echo -e "" >> ${Rpath}ddnslog.log
 fi
 
