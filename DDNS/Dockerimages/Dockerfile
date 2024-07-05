@@ -1,5 +1,6 @@
 FROM alpine
 WORKDIR /ddns
+COPY /DDNS/Dockerimages/src/ /ddns
 RUN ls
 RUN chmod +x namesiloddns-dk.sh && \
     chmod +x entrypoint.sh && \
