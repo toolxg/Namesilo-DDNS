@@ -1,7 +1,7 @@
 FROM alpine
 WORKDIR /ddns
-COPY src/ /ddns
-RUN chmod +x namesiloddns-dk.sh && \
+RUN ls && \
+    chmod +x namesiloddns-dk.sh && \
     chmod +x entrypoint.sh && \
     sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
     apk update && apk upgrade && \
