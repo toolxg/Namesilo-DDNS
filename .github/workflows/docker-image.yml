@@ -14,8 +14,8 @@ jobs:
     - name: Build the Docker image
       run: |
         mkdir image
-        docker build . --file acme-SSL/Dockerfile --tag acmessl:v0.1
-        docker save acmessl:v0.1 > ./image/acmessl.tar
+        docker build . --file acme-SSL/Dockerfile --tag acmessl:v0.2
+        docker save acmessl:v0.2 > ./image/acmessl.tar
     
     - name : Upload
       uses: actions/upload-artifact@master
