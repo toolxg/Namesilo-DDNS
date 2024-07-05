@@ -10,15 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: |
         mkdir image
-        docker build . --file acme-SSL/Dockerfile --tag acmessl:v0.2
-        docker save acmessl:v0.2 > ./image/acmessl.tar
+        docker build . --file DDNS/Dockerimages/Dockerfile --tag namesiloddns:v0.2
+        docker save namesiloddns:v0.2 > ./image/namesiloddns.tar
     
     - name : Upload
       uses: actions/upload-artifact@master
       with:
-        name: acmessl
+        name: namesiloddns
         path: image
