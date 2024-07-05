@@ -12,6 +12,14 @@ trap handle_signal SIGTERM
 
 while [ 1 -eq 1 ]
 do
-    `/bin/bash namesiloddns-dk.sh`
-    sleep ${looptime:-10}m
+    if [ -z "$proxy" ]; then  
+        `/bin/bash namesiloddns-dk.sh`
+        sleep ${looptime:-10}m
+    else
+        cp /etc/proxychains.conf /etc/proxysock5.conf
+        sed -i "s/^socks4 	127.0.0.1 9050/socks5 	${proxy}/" "/etc/proxysock5.conf"  
+        `proxychains -q -f /etc/proxysock5.conf /bin/bash namesiloddns-dk.sh`
+        sleep ${looptime:-10}m
+    fi  
+    
 done
