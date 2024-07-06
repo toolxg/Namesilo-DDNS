@@ -22,8 +22,9 @@ APIkey获取地址: **https://www.namesilo.com/account/api-manager**
 DOMAIN=""   #域名: (必填)
 HOST=""     #主机名: (必填)
 APIKEY=""   #APIkey: (必填)
-Proxy=""    #socks5代理: (可选)
-looptime="" #脚本循环间隔: 默认为10分钟 (可选)
+PROXY=""    #socks5代理: (可选)
+LOOPTIME="" #脚本循环间隔: 默认为10分钟 (可选)
+UTO=""      #公网IP获取接口超时事件(秒): 默认为5秒 (可选)
 ```
 ### 创建容器示例
 ```
@@ -31,7 +32,7 @@ looptime="" #脚本循环间隔: 默认为10分钟 (可选)
     -e DOMAIN="test.com" \
     -e HOST="ddns" \
     -e APIKEY="ApiKey" \
-    -e Proxy="192.168.1.1 1080" \
+    -e PROXY="192.168.1.1 1080" \
     -v /var/log/ddnslog.log:/ddns/ddnslog.log \
     -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \
     -d namesiloddns:v0.2

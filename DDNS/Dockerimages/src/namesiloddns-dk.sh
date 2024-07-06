@@ -103,8 +103,8 @@ else
     echo $Stime "公网IP由>$oldip<更改为>$IIPS<"  >> ${Rpath}ddnslog.log
 fi
 
-## 判断是否填写Proxy变量并获取namesilo DNS列表
-if [ -z "$Proxy" ]; then 
+## 判断是否填写PROXY变量并获取namesilo DNS列表
+if [ -z "$PROXY" ]; then 
     curl -s "https://www.namesilo.com/api/dnsListRecords?version=1&type=xml&key=$APIKEY&domain=$DOMAIN" > ${Rpath}${DOMAIN}.xml
 else
     proxychains -q -f /etc/proxysock5.conf curl -s "https://www.namesilo.com/api/dnsListRecords?version=1&type=xml&key=$APIKEY&domain=$DOMAIN" > ${Rpath}${DOMAIN}.xml
@@ -112,8 +112,8 @@ fi
 ## 提取resource id
 ResourceID=`xmllint --xpath "//namesilo/reply/resource_record/record_id[../host/text() = '${HOST}.${DOMAIN}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<record_id>).*?(?=</record_id>)'`
 
-## 判断是否填写Proxy变量并更新DNS记录
-if [ -z "$Proxy" ]; then 
+## 判断是否填写PROXY变量并更新DNS记录
+if [ -z "$PROXY" ]; then 
     curl -s "https://www.namesilo.com/api/dnsUpdateRecord?version=1&type=xml&key=$APIKEY&domain=$DOMAIN&rrid=$ResourceID&rrhost=$HOST&rrvalue=$IIPS&rrttl=3600" > ${Rpath}${DOMAIN}-ret.xml
 else
     proxychains -q -f /etc/proxysock5.conf curl -s "https://www.namesilo.com/api/dnsUpdateRecord?version=1&type=xml&key=$APIKEY&domain=$DOMAIN&rrid=$ResourceID&rrhost=$HOST&rrvalue=$IIPS&rrttl=3600" > ${Rpath}${DOMAIN}-ret.xml
