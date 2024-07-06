@@ -12,6 +12,8 @@ APIkey获取地址: **https://www.namesilo.com/account/api-manager**
 [镜像下载](https://github.com/toolxg/Namesilo-DDNS-SSL/releases)
 >镜像构建文件在DDNS/Dockerimages内,可以自行构建镜像,镜像大小在12M左右
 
+### 导入容器镜像
+`docker load -i namesiloddns-vx.tar`
 
 ### 创建容器所需要求
 ```
