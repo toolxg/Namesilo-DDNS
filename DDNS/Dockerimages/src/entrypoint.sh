@@ -17,5 +17,5 @@ do
         sed -i "s/^socks4 	127.0.0.1 9050/socks5 	${Proxy}/" "/etc/proxysock5.conf"  
     fi  
     `/bin/bash namesiloddns-dk.sh`
-    sleep ${looptime:-10}m
+    sleep ${LOOPTIME:-10}m
 done
