@@ -60,7 +60,7 @@ do
     # 在循环最后一次后仍然无法获取则退出脚本并输出错误。
     if (($i == 4)); then
         echo -e "" >> ${Rpath}ddnslog.log
-        echo $Stime "接口错误，检查网络环境" >> ${Rpath}ddnslog.log
+        echo $Stime "获取公网IP接口错误,检查网络环境" >> ${Rpath}ddnslog.log
         echo -e "" >> ${Rpath}ddnslog.log
         exit 0
     fi
@@ -73,8 +73,16 @@ else
     proxychains -q -f /etc/proxysock5.conf curl -s "https://www.namesilo.com/api/dnsListRecords?version=1&type=xml&key=$APIKEY&domain=$DOMAIN" > ${Rpath}${DOMAIN}.xml
 fi
 
-## 提取DNS A记录IP
-ExistingIP=`xmllint --xpath "//namesilo/reply/resource_record/value[../host/text() = '${HOST}.${DOMAIN}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<value>).*?(?=</value>)'`
+## 判断是否获取到namesilo DNS列表,并提取DNS A记录IP
+if [ -s "${Rpath}${DOMAIN}.xml" ]; then  
+    ExistingIP=`xmllint --xpath "//namesilo/reply/resource_record/value[../host/text() = '${HOST}.${DOMAIN}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<value>).*?(?=</value>)'`
+else  
+    echo -e "" >> ${Rpath}ddnslog.log
+    echo $Stime "namesilo Api接口错误,未获取到DNS列表数据" >> ${Rpath}ddnslog.log
+    echo -e "" >> ${Rpath}ddnslog.log
+    exit 0
+fi
+
 
 ## 判断本次获取与上次获取IP是否相同
 if [ "$NIIPS" = "$ExistingIP" ]; then
@@ -103,11 +111,13 @@ if [ "$submitS" = "300" ]; then
     echo -e "" >> ${Rpath}ddnslog.log
     echo $Stime "Api更新成功" >> ${Rpath}ddnslog.log
     echo -e "" >> ${Rpath}ddnslog.log
+    echo -e "" > ${Rpath}${DOMAIN}.xml
     else
     echo -e "" >> ${Rpath}ddnslog.log
     echo $Stime "Api更新错误,返回状态码为$submitS" >> ${Rpath}ddnslog.log
     echo $Stime "公网IP未更改" >> ${Rpath}ddnslog.log
     echo -e "" >> ${Rpath}ddnslog.log
+    echo -e "" > ${Rpath}${DOMAIN}.xml
 fi
 
 exit 0
