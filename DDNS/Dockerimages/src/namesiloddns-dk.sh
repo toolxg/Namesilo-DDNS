@@ -87,9 +87,11 @@ fi
 ## 判断本次获取与上次获取IP是否相同
 if [ "$NIIPS" = "$ExistingIP" ]; then
     echo $Stime "公网IP未改变" >> ${Rpath}ddnslog.log
+    echo -e "" > ${Rpath}${DOMAIN}.xml
     exit 0
 else
     echo $Stime "公网IP由>$ExistingIP<更改为>$NIIPS<"  >> ${Rpath}ddnslog.log
+    echo -e "" > ${Rpath}${DOMAIN}.xml
 fi
 
 ### 更新DNS记录
