@@ -17,7 +17,7 @@ APIkey获取地址: **https://www.namesilo.com/account/api-manager**
 
 ### 创建容器所需要求
 ```
-# 根据需求挂载日志文件ddnslog.log(可选)与时区文件localtime (可选)
+# 根据需要挂载日志文件ddnslog.log(可选)
 # 挂载日志文件需先在宿主机内创建日志文件
 
 # 环境变量(注意大小写):
@@ -36,6 +36,5 @@ UTO=""      #公网IP获取接口超时事件(秒): 默认为5秒 (可选)
     -e APIKEY="ApiKey" \
     -e PROXY="192.168.1.1 1080" \
     -v /var/log/ddnslog.log:/ddns/ddnslog.log \
-    -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \
     -d namesiloddns:v0.2
 ```
