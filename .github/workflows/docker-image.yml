@@ -12,8 +12,8 @@ jobs:
     - name: Build the Docker image
       run: |
         mkdir image
-        docker build . --file DDNS/Dockerimages/Dockerfile --tag namesiloddns:v0.2
-        docker save namesiloddns:v0.2 > ./image/namesiloddns.tar
+        docker build . --file DDNS/Dockerimages/Dockerfile --tag namesiloddns:v0.3
+        docker save namesiloddns:v0.3 > ./image/namesiloddns-v0.3.tar
     
     - name : Upload
       uses: actions/upload-artifact@master
