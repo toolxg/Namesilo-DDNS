@@ -4,7 +4,8 @@ COPY /DDNS/Dockerimages/src/ /ddns
 ENV DOMAIN=""
 ENV HOST=""
 ENV APIKEY=""
-RUN ls
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN chmod +x namesiloddns-dk.sh && \
     chmod +x entrypoint.sh && \
     apk update && apk upgrade && \
