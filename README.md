@@ -24,10 +24,12 @@ APIkey获取地址: **https://www.namesilo.com/account/api-manager**
 DOMAIN=""   #域名: (必填)
 HOST=""     #主机名: (必填)
 APIKEY=""   #APIkey: (必填)
+TZ="Asia/Shanghai"  #时区: 可自行调整[时区wiki](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (必填)
 PROXY=""    #socks5代理: (可选)
-LOOPTIME="" #脚本循环间隔: 默认为10分钟 (可选)
-UTO=""      #公网IP获取接口超时事件(秒): 默认为5秒 (可选)
+LOOPTIME="" #循环检查间隔: 默认为10分钟 (可选)
+UTO=""      #公网IP获取接口超时时间(秒): 默认为5秒 (可选)
 ```
+
 ### 创建容器示例
 ```
 @: docker run --name ddns -t \
