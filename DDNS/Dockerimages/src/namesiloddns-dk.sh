@@ -87,7 +87,6 @@ if [ "$NIIPS" = "$ExistingIP" ]; then
     exit 0
 else
     echo $Stime "公网IP由>$ExistingIP<更改为>$NIIPS<"  >> ${Rpath}ddnslog.log
-    echo -e "" > ${Rpath}${DOMAIN}.xml
 fi
 
 ### 更新DNS记录
