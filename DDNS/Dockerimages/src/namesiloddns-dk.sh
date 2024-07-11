@@ -95,9 +95,9 @@ ResourceID=`xmllint --xpath "//namesilo/reply/resource_record/record_id[../host/
 
 ## 判断是否需要socks5,并更新DNS记录
 if [ -z "$PROXY" ]; then
-    curl -s "https://www.namesilo.com/api/dnsUpdateRecord?version=1&type=xml&key=$APIKEY&domain=$DOMAIN&rrid=$ResourceID&rrhost=$HOST&rrvalue=$IIPS&rrttl=3600" > ${Rpath}${DOMAIN}-ret.xml
+    curl -s "https://www.namesilo.com/api/dnsUpdateRecord?version=1&type=xml&key=$APIKEY&domain=$DOMAIN&rrid=$ResourceID&rrhost=$HOST&rrvalue=$NIIPS&rrttl=3600" > ${Rpath}${DOMAIN}-ret.xml
 else
-    proxychains -q -f /etc/proxysock5.conf curl -s "https://www.namesilo.com/api/dnsUpdateRecord?version=1&type=xml&key=$APIKEY&domain=$DOMAIN&rrid=$ResourceID&rrhost=$HOST&rrvalue=$IIPS&rrttl=3600" > ${Rpath}${DOMAIN}-ret.xml
+    proxychains -q -f /etc/proxysock5.conf curl -s "https://www.namesilo.com/api/dnsUpdateRecord?version=1&type=xml&key=$APIKEY&domain=$DOMAIN&rrid=$ResourceID&rrhost=$HOST&rrvalue=$NIIPS&rrttl=3600" > ${Rpath}${DOMAIN}-ret.xml
 fi
 
 ## 判断是否提交成功
