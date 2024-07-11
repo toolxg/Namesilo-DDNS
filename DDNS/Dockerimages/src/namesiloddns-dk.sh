@@ -26,7 +26,7 @@ Rpath="$(cd `dirname $0`; pwd)/"
 ## 判断用户数据是否为空
 if [[ -z $DOMAIN ]] || [[ -z $HOST ]] || [[ -z $APIKEY ]]; then
     echo $Stime "环境变量存在未填写项，注意检查配置 >DOMAIN< >HOST< >APIKEY< 为必填项" >> ${Rpath}ddnslog.log
-    echo -e "" >> ${Rpath}ddnslog.log
+    
     exit 0
 fi
 
@@ -59,9 +59,7 @@ do
     fi
     # 在循环最后一次后仍然无法获取则退出脚本并输出错误。
     if (($i == 4)); then
-        echo -e "" >> ${Rpath}ddnslog.log
         echo $Stime "获取公网IP接口错误,检查网络环境" >> ${Rpath}ddnslog.log
-        echo -e "" >> ${Rpath}ddnslog.log
         exit 0
     fi
 done
@@ -77,9 +75,7 @@ fi
 if [ -s "${Rpath}${DOMAIN}.xml" ]; then  
     ExistingIP=`xmllint --xpath "//namesilo/reply/resource_record/value[../host/text() = '${HOST}.${DOMAIN}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<value>).*?(?=</value>)'`
 else  
-    echo -e "" >> ${Rpath}ddnslog.log
     echo $Stime "namesilo Api接口错误,未获取到DNS列表数据" >> ${Rpath}ddnslog.log
-    echo -e "" >> ${Rpath}ddnslog.log
     exit 0
 fi
 
@@ -110,15 +106,11 @@ fi
 # submitS=submit status
 submitS=`xmllint --xpath "//namesilo/reply/code/text()"  ${Rpath}${DOMAIN}-ret.xml`
 if [ "$submitS" = "300" ]; then
-    echo -e "" >> ${Rpath}ddnslog.log
     echo $Stime "Api更新成功" >> ${Rpath}ddnslog.log
-    echo -e "" >> ${Rpath}ddnslog.log
     echo -e "" > ${Rpath}${DOMAIN}.xml
     else
-    echo -e "" >> ${Rpath}ddnslog.log
     echo $Stime "Api更新错误,返回状态码为$submitS" >> ${Rpath}ddnslog.log
     echo $Stime "公网IP未更改" >> ${Rpath}ddnslog.log
-    echo -e "" >> ${Rpath}ddnslog.log
     echo -e "" > ${Rpath}${DOMAIN}.xml
 fi
 
