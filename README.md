@@ -30,6 +30,7 @@ PROXY=""    #socks5代理: (可选)
 LOOPTIME="" #循环检查间隔: 默认为10分钟 (可选)
 UTO=""      #公网IP获取接口超时时间(秒): 默认为5秒 (可选)
 ```
+> 获取镜像定义的环境变量 docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' [镜像名称:版本]
 [时区wiki](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 
 
 #### 创建容器示例
