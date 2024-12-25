@@ -45,4 +45,3 @@ UTO=""      #公网IP获取接口超时时间(秒): 默认为5秒 (可选)
     -v /var/log/ddnslog.log:/ddns/ddnslog.log \
     -d namesiloddns:v0.2
 ```
-1
