@@ -1,6 +1,6 @@
 FROM alpine
 WORKDIR /ddns
-COPY /DDNS/Dockerimages/src/ /ddns
+COPY /DDNS/src/ /ddns
 ENV DOMAIN=""
 ENV HOST=""
 ENV APIKEY=""

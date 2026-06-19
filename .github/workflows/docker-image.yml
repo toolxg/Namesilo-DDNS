@@ -12,7 +12,7 @@ jobs:
     - name: Build the Docker image
       run: |
         mkdir image
-        docker build . --file DDNS/Dockerimages/Dockerfile --tag namesiloddns:v0.4
+        docker build . --file DDNS/Dockerfile --tag namesiloddns:v0.4
         docker save namesiloddns:v0.4 > ./image/namesiloddns-v0.4.tar
     
     - name : Upload
