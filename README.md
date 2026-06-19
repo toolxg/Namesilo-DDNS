@@ -53,6 +53,7 @@ LOG_FILE=""    # 日志文件路径
 | LOOPTIME | 可选 | 15 | DDNSapi检查间隔时间，单位：分钟。建议不小于5分钟，避免频繁API调用 |
 | UTO | 可选 | 5 | 获取公网IP接口的连接超时时间，单位：秒。网络较差时可适当增加 |
 | LOG_LEVEL | 可选 | 1 | 日志输出级别：0=全部日志(DEBUG), 1=信息及以上(INFO), 2=警告及以上(WARN), 3=仅错误(ERROR) |
+| LOG_FILE | 可选 | - | 日志文件路径，默认不启用 |
 
 > 💡 **提示**: 获取镜像定义的环境变量可使用命令：
 > ```bash
@@ -91,10 +92,8 @@ docker run --name ddns -t \
     -e DOMAIN="example.com" \
     -e HOST="ddns" \
     -e APIKEY="your_api_key_here" \
-    -e TZ="Asia/Shanghai" \
-    -d namesiloddns:v0.2
+    -d namesiloddns:vx.x
 ```
-<<<<<<< HEAD
 
 ##### 使用SOCKS5代理
 ```bash
@@ -102,9 +101,8 @@ docker run --name ddns -t \
     -e DOMAIN="example.com" \
     -e HOST="ddns" \
     -e APIKEY="your_api_key_here" \
-    -e TZ="Asia/Shanghai" \
     -e PROXY="socks5 192.168.1.1 1080" \
-    -d namesiloddns:v0.2
+    -d namesiloddns:vx.x
 ```
 
 ##### 自定义检查间隔和超时时间
@@ -113,11 +111,9 @@ docker run --name ddns -t \
     -e DOMAIN="example.com" \
     -e HOST="ddns" \
     -e APIKEY="your_api_key_here" \
-    -e TZ="Asia/Shanghai" \
     -e LOOPTIME="5" \
     -e UTO="10" \
-    -e LOG_LEVEL="0" \
-    -d namesiloddns:v0.2
+    -d namesiloddns:vx.x
 ```
 
 ##### 挂载日志文件到宿主机（可选）
@@ -133,9 +129,9 @@ docker run --name ddns -t \
     -e DOMAIN="example.com" \
     -e HOST="ddns" \
     -e APIKEY="your_api_key_here" \
-    -e TZ="Asia/Shanghai" \
-    -v /var/log/ddns.log:/ddns/ddns.log \
-    -d namesiloddns:v0.2
+    -e LOG_FILE="/ddns.log" \
+    -v /var/log/ddns.log:/ddns.log \
+    -d namesiloddns:vx.x
 ```
 
 ## 注意事项
@@ -234,5 +230,3 @@ docker ps -a | grep ddns
 # 进入容器内部（调试用）
 docker exec -it ddns /bin/bash
 ```
-=======
->>>>>>> df66bd4ebcc273df93f5d5e1165fecd4fdfa5dc4

@@ -51,7 +51,7 @@ log() {
             ;;
     esac
     
-    # 输出到日志文件（如果设置了LOG_FILE）
+    # 如果设置了LOG_FILE则输出到日志文件
     if [ -n "$LOG_FILE" ]; then
         echo "$log_message" >> "$LOG_FILE"
     fi

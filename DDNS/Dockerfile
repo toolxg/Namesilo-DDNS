@@ -5,6 +5,11 @@ ENV DOMAIN=""
 ENV HOST=""
 ENV APIKEY=""
 ENV TZ=Asia/Shanghai
+ENV PROXY=""
+ENV LOOPTIME=""
+ENV UTO=""
+ENV LOG_LEVEL=""
+ENV LOG_FILE=""
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN chmod +x namesiloddns-dk.sh && \
     chmod +x entrypoint.sh && \
