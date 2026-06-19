@@ -38,6 +38,7 @@ PROXY=""       # 代理网关地址，格式: "IP 端口"，例如: "socks5/http
 LOOPTIME=""    # DDNS检查间隔时间（分钟），默认: 15分钟
 UTO=""         # 公网IP获取接口超时时间（秒），默认: 5秒
 LOG_LEVEL=""   # 日志级别，可选值: 0(DEBUG), 1(INFO), 2(WARN), 3(ERROR)，默认: 1
+LOG_FILE=""    # 日志文件路径
 ```
 
 ##### 参数详细说明
@@ -93,6 +94,7 @@ docker run --name ddns -t \
     -e TZ="Asia/Shanghai" \
     -d namesiloddns:v0.2
 ```
+<<<<<<< HEAD
 
 ##### 使用SOCKS5代理
 ```bash
@@ -101,7 +103,7 @@ docker run --name ddns -t \
     -e HOST="ddns" \
     -e APIKEY="your_api_key_here" \
     -e TZ="Asia/Shanghai" \
-    -e PROXY="192.168.1.1 1080" \
+    -e PROXY="socks5 192.168.1.1 1080" \
     -d namesiloddns:v0.2
 ```
 
@@ -139,12 +141,12 @@ docker run --name ddns -t \
 ## 注意事项
 
 ### 1. API调用频率限制
-- Namesilo API有调用频率限制，建议 `LOOPTIME` 设置为 **10分钟或以上**
+- Namesilo API有调用频率限制，建议 `LOOPTIME` 设置为 **15分钟或以上**
 - 过短的检查间隔可能导致API被临时封禁
 
 ### 2. 网络环境
 - 确保容器能够访问外网以获取公网IP
-- 如果在中国大陆，可能需要配置 `PROXY` 参数使用代理
+- 如果在内网环境，需要配置 `PROXY` 参数使用代理网关
 - 支持的公网IP获取接口会自动切换（Amazon、ipify、ifconfig.me、my-ip.io）
 
 ### 3. DNS记录要求
@@ -155,14 +157,14 @@ docker run --name ddns -t \
 ### 4. 时区设置
 - 务必正确设置 `TZ` 参数，否则日志时间可能不准确
 - 常用时区参考：
-  - 中国标准时间: `Asia/Shanghai`
+  - 中国标准时间: `Asia/Shanghai`(默认)
   - 日本标准时间: `Asia/Tokyo`
   - 美国东部时间: `America/New_York`
   - UTC时间: `UTC`
 
 ### 5. 日志管理
 - 默认日志输出到容器stdout/stderr，可通过 `docker logs` 查看
-- 如需持久化日志，可挂载日志文件到宿主机
+- 如需持久化日志，可挂载日志文件到宿主机并通过`LOG_FILE`设置日志文件路径
 - 建议定期清理或轮转日志文件，避免占用过多磁盘空间
 
 ### 6. 安全建议
@@ -232,3 +234,5 @@ docker ps -a | grep ddns
 # 进入容器内部（调试用）
 docker exec -it ddns /bin/bash
 ```
+=======
+>>>>>>> df66bd4ebcc273df93f5d5e1165fecd4fdfa5dc4
