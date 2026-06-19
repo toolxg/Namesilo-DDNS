@@ -11,11 +11,53 @@ APIKEY=$APIKEY
 # UTO=url time out
 UTO=${UTO:-5}
 
-### 脚本定义
-## 定义时间格式(使用于日志)
-# Stime=systeml time
-Stime="$(date +\%Y-\%m-\%d-\%H:\%M) --"
+### 日志配置
+# 日志级别: DEBUG=0, INFO=1, WARN=2, ERROR=3
+LOG_LEVEL=${LOG_LEVEL:-1}
+LOG_FILE=""
+LOG_MODULE="DDNS-Docker"
 
+### 通用日志函数
+# 用法: log <LEVEL> <MESSAGE>
+# LEVEL: DEBUG, INFO, WARN, ERROR
+log() {
+    local level=$1
+    shift
+    local message="$*"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    
+    # 定义日志级别数值
+    declare -A level_values=( ["DEBUG"]=0 ["INFO"]=1 ["WARN"]=2 ["ERROR"]=3 )
+    local current_level=${level_values[$level]:-1}
+    
+    # 检查是否达到日志级别阈值
+    if (( current_level < LOG_LEVEL )); then
+        return
+    fi
+    
+    # 格式化日志消息
+    local log_message="[${timestamp}] [${level}] [${LOG_MODULE}] ${message}"
+    
+    # 输出到控制台（Docker环境主要使用stdout/stderr）
+    case $level in
+        ERROR)
+            echo "$log_message" >&2
+            ;;
+        WARN)
+            echo "$log_message" >&2
+            ;;
+        *)
+            echo "$log_message"
+            ;;
+    esac
+    
+    # 输出到日志文件（如果设置了LOG_FILE）
+    if [ -n "$LOG_FILE" ]; then
+        echo "$log_message" >> "$LOG_FILE"
+    fi
+}
+
+### 脚本定义
 ## 获取运行目录
 # dirname $0，取得当前执⾏的脚本⽂件的⽗⽬录
 # cd `dirname $0`，进⼊这个⽬录(切换当前⼯作⽬录)
@@ -25,9 +67,8 @@ Rpath="$(cd `dirname $0`; pwd)/"
 
 ## 判断用户数据是否为空
 if [[ -z $DOMAIN ]] || [[ -z $HOST ]] || [[ -z $APIKEY ]]; then
-    echo $Stime "环境变量存在未填写项，注意检查配置 >DOMAIN< >HOST< >APIKEY< 为必填项" >> ${Rpath}ddnslog.log
-    
-    exit 0
+    log "ERROR" "环境变量存在未填写项，注意检查配置 >DOMAIN< >HOST< >APIKEY< 为必填项"
+    exit 1
 fi
 
 ### 判断公网IP是否更新
@@ -59,8 +100,8 @@ do
     fi
     # 在循环最后一次后仍然无法获取则退出脚本并输出错误。
     if (($i == 4)); then
-        echo $Stime "获取公网IP接口错误,检查网络环境" >> ${Rpath}ddnslog.log
-        exit 0
+        log "ERROR" "获取公网IP接口错误,检查网络环境"
+        exit 1
     fi
 done
 
@@ -73,25 +114,25 @@ fi
 
 ## 判断是否获取到namesilo DNS列表,并提取DNS A记录IP
 if [ -s "${Rpath}${DOMAIN}.xml" ]; then  
-    ExistingIP=`xmllint --xpath "//namesilo/reply/resource_record/value[../host/text() = '${HOST}.${DOMAIN}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<value>).*?(?=</value>)'`
+    ExistingIP=`xmllint --xpath "//namesilo/reply/resource_record/value[../host/text() = '${HOST}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<value>).*?(?=</value>)'`
 else  
-    echo $Stime "namesilo Api接口错误,未获取到DNS列表数据" >> ${Rpath}ddnslog.log
-    exit 0
+    log "ERROR" "namesilo Api接口错误,未获取到DNS列表数据"
+    exit 1
 fi
 
 
 ## 判断本次获取与上次获取IP是否相同
 if [ "$NIIPS" = "$ExistingIP" ]; then
-    echo $Stime "公网IP未改变" >> ${Rpath}ddnslog.log
+    log "INFO" "公网IP未改变"
     echo -e "" > ${Rpath}${DOMAIN}.xml
     exit 0
 else
-    echo $Stime "公网IP由>$ExistingIP<更改为>$NIIPS<"  >> ${Rpath}ddnslog.log
+    log "INFO" "公网IP由>$ExistingIP<更改为>$NIIPS<"
 fi
 
 ### 更新DNS记录
 ## 提取A记录resource id
-ResourceID=`xmllint --xpath "//namesilo/reply/resource_record/record_id[../host/text() = '${HOST}.${DOMAIN}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<record_id>).*?(?=</record_id>)'`
+ResourceID=`xmllint --xpath "//namesilo/reply/resource_record/record_id[../host/text() = '${HOST}' ]"  ${Rpath}${DOMAIN}.xml | grep -oP '(?<=<record_id>).*?(?=</record_id>)'`
 
 ## 判断是否需要socks5,并更新DNS记录
 if [ -z "$PROXY" ]; then
@@ -104,12 +145,18 @@ fi
 # Api状态解析 https://www.namesilo.com/api-reference
 # submitS=submit status
 submitS=`xmllint --xpath "//namesilo/reply/code/text()"  ${Rpath}${DOMAIN}-ret.xml`
-if [ "$submitS" = "300" ]; then
-    echo $Stime "Api更新成功" >> ${Rpath}ddnslog.log
+if [ -z "$submitS" ]; then
+    log "ERROR" "Api更新错误，无法获取返回状态码。请检查 ${Rpath}${DOMAIN}-ret.xml 文件内容"
+    log "DEBUG" "API返回内容: $(cat ${Rpath}${DOMAIN}-ret.xml 2>/dev/null | head -c 500)"
+    log "WARN" "公网IP未更改"
     echo -e "" > ${Rpath}${DOMAIN}.xml
-    else
-    echo $Stime "Api更新错误,返回状态码为$submitS" >> ${Rpath}ddnslog.log
-    echo $Stime "公网IP未更改" >> ${Rpath}ddnslog.log
+elif [ "$submitS" = "300" ]; then
+    log "INFO" "Api更新成功"
+    echo -e "" > ${Rpath}${DOMAIN}.xml
+else
+    log "ERROR" "Api更新错误,返回状态码为[$submitS]"
+    log "DEBUG" "API返回内容: $(cat ${Rpath}${DOMAIN}-ret.xml 2>/dev/null | head -c 500)"
+    log "WARN" "公网IP未更改"
     echo -e "" > ${Rpath}${DOMAIN}.xml
 fi
 
